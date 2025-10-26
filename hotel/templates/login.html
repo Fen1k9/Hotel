@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Вход и регистрация - Гостиница</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/css/uikit.min.css" />
+
+</head>
+<body>
+    <div class="uk-container uk-container-small uk-margin-large-top">
+        <div class="uk-card uk-card-default uk-card-body uk-width-1-2@m uk-align-center">
+            <h2 class="uk-card-title uk-text-center">Гостиница "La-Vual"</h2>
+
+            {% if error %}
+                <div class="uk-alert-danger" uk-alert>
+                    <a class="uk-alert-close" uk-close></a>
+                    <p>{{ error }}</p>
+                </div>
+            {% endif %}
+
+            <ul class="uk-tab" uk-tab>
+                <li class="uk-active"><a href="#">Вход</a></li>
+                <li><a href="#">Регистрация</a></li>
+            </ul>
+
+            <ul class="uk-switcher uk-margin">
+
+                <li class="active">
+                    <form method="post" class="uk-form-stacked">
+                        {% csrf_token %}
+                        <input type="hidden" name="login" value="1">
+
+                        <div class="uk-margin">
+                            <label class="uk-form-label" for="login-username">Логин</label>
+                            <div class="uk-form-controls">
+                                <input class="uk-input" type="text" name="username" id="login-username" placeholder="Введите логин" required>
+                            </div>
+                        </div>
+
+                        <div class="uk-margin">
+                            <label class="uk-form-label" for="login-password">Пароль</label>
+                            <div class="uk-form-controls">
+                                <input class="uk-input" type="password" name="password" id="login-password" placeholder="Введите пароль" required>
+                            </div>
+                        </div>
+
+                        <div class="uk-margin">
+                            <button type="submit" class="uk-button uk-button-primary uk-width-1-1">Войти</button>
+                        </div>
+                    </form>
+                </li>
+
+                <!-- вкладка регистрации -->
+                <li>
+                    <form method="post" class="uk-form-stacked">
+                        {% csrf_token %}
+                        <input type="hidden" name="register" value="1">
+
+                        <div class="uk-margin">
+                            <label class="uk-form-label" for="register-username">Логин *</label>
+                            <div class="uk-form-controls">
+                                <input class="uk-input" type="text" name="username" id="register-username" placeholder="Придумайте логин" required>
+                            </div>
+                        </div>
+
+                        <div class="uk-margin">
+                            <label class="uk-form-label" for="register-email">Email (необязательно)</label>
+                            <div class="uk-form-controls">
+                                <input class="uk-input" type="email" name="email" id="register-email" placeholder="your@email.com">
+                            </div>
+                        </div>
+
+                        <div class="uk-margin">
+                            <label class="uk-form-label" for="register-password">Пароль *</label>
+                            <div class="uk-form-controls">
+                                <input class="uk-input" type="password" name="password" id="register-password" placeholder="Придумайте пароль" required>
+                            </div>
+                        </div>
+
+                        <div class="uk-margin">
+                            <button type="submit" class="uk-button uk-button-secondary uk-width-1-1">Зарегистрироваться</button>
+                        </div>
+                    </form>
+                </li>
+            </ul>
+
+            <div class="uk-text-center uk-margin-top">
+                <a href="{% url 'services' %}" class="uk-button uk-button-default">Продолжить как гость</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/js/uikit-icons.min.js"></script>
+</body>
+</html>
