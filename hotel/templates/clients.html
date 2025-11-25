@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Клиенты - Гостиница</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/css/uikit.min.css" />
+</head>
+<body>
+    <nav class="uk-navbar-container" uk-navbar>
+        <div class="uk-navbar-left">
+            <a class="uk-navbar-item uk-logo" href="{% url 'services' %}">Гостиница "La-Vual"</a>
+        </div>
+        <div class="uk-navbar-right">
+            {% if user.is_authenticated %}
+                <span class="uk-navbar-item">{{ user.username }} ({{ user.role }})</span>
+                <a class="uk-navbar-item" href="{% url 'logout' %}">Выйти</a>
+            {% else %}
+                <a class="uk-navbar-item" href="{% url 'login' %}">Войти</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="uk-container uk-margin-top">
+        <h1>Список клиентов</h1>
+
+        {% if error %}
+            <div class="uk-alert-danger" uk-alert>
+                <a class="uk-alert-close" uk-close></a>
+                <p>{{ error }}</p>
+            </div>
+        {% endif %}
+
+        <!-- ПРОСТОЙ ВАРИАНТ ДЛЯ ОТЛАДКИ -->
+        <div class="uk-grid uk-child-width-1-3@m">
+            {% for client in clients %}
+            <div class="uk-card uk-card-default uk-card-body">
+                <h3>{{ client.full_name }}</h3>
+                <p><strong>Телефон:</strong> {{ client.phone_number }}</p>
+                <p><strong>Дата рождения:</strong> {{ client.birth_date }}</p>
+                <p><strong>Документ:</strong> {{ client.document.series }} {{ client.document.number }}</p>
+                <p><strong>Скидка:</strong> {{ client.discount }}%</p>
+            </div>
+            {% empty %}
+            <div class="uk-width-1-1">
+                <div class="uk-alert-warning" uk-alert>
+                    <p>Клиентов в базе данных нет</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="uk-margin-top">
+            <a href="{% url 'services' %}" class="uk-button uk-button-default">Назад к услугам</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/js/uikit.min.js"></script>
+</body>
+</html>

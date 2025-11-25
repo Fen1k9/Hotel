@@ -19,10 +19,6 @@ class Service(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Цена")
     description = models.TextField(blank=True, verbose_name="Описание")
 
-    class Meta:
-        verbose_name = "Услуга"
-        verbose_name_plural = "Услуги"
-
     def __str__(self):
         return self.name
 
@@ -32,9 +28,6 @@ class Document(models.Model):
     issue_date = models.DateField(verbose_name="Дата выдачи")
     issued_by = models.CharField(max_length=255, verbose_name="Кем выдан")
 
-    class Meta:
-        verbose_name = "Документ"
-        verbose_name_plural = "Документы"
 
     def __str__(self):
         return f"{self.series} {self.number}"
@@ -57,9 +50,6 @@ class Guest(models.Model):
         verbose_name="Скидка (%)"
     )
 
-    class Meta:
-        verbose_name = "Гость"
-        verbose_name_plural = "Гости"
 
     def __str__(self):
         return self.full_name
@@ -70,10 +60,6 @@ class Category(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Цена")
     description = models.TextField(blank=True, verbose_name="Описание")
 
-    class Meta:
-        verbose_name = "Категория"
-        verbose_name_plural = "Категории"
-
     def __str__(self):
         return self.name
 
@@ -81,9 +67,6 @@ class Item(models.Model):
     item_id = models.AutoField(primary_key=True, verbose_name="ПредметИД")
     name = models.CharField(max_length=100, verbose_name="Название")
 
-    class Meta:
-        verbose_name = "Предмет"
-        verbose_name_plural = "Предметы"
 
     def __str__(self):
         return self.name
@@ -100,11 +83,6 @@ class Equipment(models.Model):
         verbose_name="Предмет"
     )
 
-    class Meta:
-        verbose_name = "Оснащение"
-        verbose_name_plural = "Оснащение"
-        unique_together = ('category', 'item')
-
     def __str__(self):
         return f"{self.category.name} - {self.item.name}"
 
@@ -120,9 +98,6 @@ class Room(models.Model):
         related_name="rooms"
     )
 
-    class Meta:
-        verbose_name = "Номер"
-        verbose_name_plural = "Номера"
 
     def __str__(self):
         return f"Номер {self.room_id} ({self.category.name})"
@@ -155,10 +130,6 @@ class Booking(models.Model):
         verbose_name="ОплаченоФакт"
     )
 
-    class Meta:
-        verbose_name = "Бронирование"
-        verbose_name_plural = "Бронирования"
-
     def __str__(self):
         return f"Бронирование {self.booking_id} - {self.guest.full_name}"
 
@@ -178,9 +149,6 @@ class ServiceProvision(models.Model):
     quantity = models.IntegerField(default=1, verbose_name="Количество")
     provision_date = models.DateField(verbose_name="Дата оказания услуги")
 
-    class Meta:
-        verbose_name = "Оказание услуги"
-        verbose_name_plural = "Оказание услуг"
 
     def __str__(self):
         return f"{self.service.name} для {self.booking.guest.full_name}"

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.views import View
 from django.contrib.auth.hashers import make_password
-from .models import Service, User
+from .models import Service, User, Guest
 
 
 class LoginView(View):
@@ -15,7 +15,6 @@ class LoginView(View):
         username = request.POST['username']
         password = request.POST['password']
 
-        # Регистрация
         if 'register' in request.POST:
             if User.objects.filter(username=username).exists():
                 return render(request, 'login.html', {'error': 'Логин уже занят'})
@@ -25,8 +24,6 @@ class LoginView(View):
             user.save()
             login(request, user)
             return redirect('services')
-
-        # Вход
         else:
             user = authenticate(username=username, password=password)
             if user is not None:
@@ -38,11 +35,26 @@ class LoginView(View):
 class ServicesView(View):
     def get(self, request):
         services = Service.objects.all()
+        search_query = request.GET.get('search', '')
+        if search_query:
+            services = services.filter(name__icontains=search_query)
+
         return render(request, 'services.html', {
             'services': services,
-            'is_guest': not request.user.is_authenticated
+            'is_guest': not request.user.is_authenticated,
+            'search_query': search_query
         })
+class ClientsView(View):
+    def get(self, request):
+        if not request.user.is_authenticated:
+            return redirect('login')
 
+        if request.user.role not in ['manager', 'admin']:
+            return render(request, 'clients.html',
+                          {'error': 'Доступ запрещен. Только для менеджеров и администраторов.'})
+        clients = Guest.objects.all()
+
+        return render(request, 'clients.html', {'clients': clients})
 
 def logout_view(request):
     logout(request)
