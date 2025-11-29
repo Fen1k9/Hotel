@@ -8,6 +8,7 @@
     <nav class="uk-navbar-container" uk-navbar>
         <div class="uk-navbar-left">
             <a class="uk-navbar-item uk-logo" href="{% url 'services' %}">Гостиница "La-Vual"</a>
+            <a href="{% url 'book_service' %}" class="uk-navbar-item uk-button uk-button-primary">Запись на услугу</a>
         </div>
         <div class="uk-navbar-right">
             {% if user.is_authenticated %}
