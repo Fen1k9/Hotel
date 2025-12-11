@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Название</title>
+</head>
+<body>
+  <h1> Альбомы</h1>
+  <form method="get">
+    <input type="text" name="search">
+    <button type="submit"></button>
+  </form>
+  <form method="get">
+    <select name="genre">
+      <option value="">  </option>
+        {% for genre in genres %}
+      </option value="{{genre.id}}" {% if genre.id == selected_filter_genre %} selected {% endif %}> {{genre.name}}</option>
+      {% endfor %}
+    </select>
+    <button type="submit"> Поиск </button>
+  </form>
+  <div>
+    {% for albom in albom %}
+    <div>
+      <h1>Название {{albom.name}}</h1>
+      <p>Исполнитель {{albom.ispoln.name}}</p>
+      <p>Год выпуска {{albom.year_d}}</p>
+      <p>Жанр {{albom.genre.name}}</p>
+    </div>
+    {% endfor %}
+  </div>
+</body>
+</html>

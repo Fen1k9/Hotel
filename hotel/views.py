@@ -38,9 +38,20 @@ def services_view(request):
     if search:
         services = services.filter(name__icontains=search)
 
+    # Получаем скидку клиента если он авторизован
+    client_discount = 0
+    if request.user.is_authenticated and request.user.role == 'client':
+        try:
+            guest = Guest.objects.get(guest_id=request.user.username)
+            client_discount = guest.discount
+        except:
+            client_discount = 0
+
     return render(request, 'services.html', {
         'services': services,
-        'is_guest': not request.user.is_authenticated
+        'is_guest': not request.user.is_authenticated,
+        'client_discount': client_discount,
+        'search': search
     })
 
 
