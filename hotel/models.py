@@ -14,16 +14,6 @@ class User(AbstractUser):
         choices=ROLE_CHOICES,
         default='guest'
     )
-    # Добавляем связь с Guest
-    guest_profile = models.OneToOneField(
-        'Guest',
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name='user_account',
-        verbose_name="Профиль гостя"
-    )
-
 
 class Service(models.Model):
     name = models.CharField(max_length=100, verbose_name="Название")
@@ -62,20 +52,20 @@ class Guest(models.Model):
         default=0.00,
         verbose_name="Скидка (%)"
     )
-    # Добавляем связь с User
+    # Оставить только здесь связь
     user = models.OneToOneField(
         User,
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name='guest_profile_reverse',
+        related_name='guest_profile',
         verbose_name="Пользователь"
     )
 
     def __str__(self):
         return self.full_name
 
-    # Метод для получения связанного пользователя
+
     def get_user(self):
         return self.user
 

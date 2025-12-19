@@ -19,3 +19,20 @@ def apply_discount(price, discount):
     except (ValueError, TypeError):
         # Если что-то пошло не так, возвращаем исходную цену
         return price
+
+    return f"{float(price)*(1-float(discount)/100):.2f}"
+
+
+@register.filter
+def calculate_saving(price, discount):
+    """Рассчитывает сумму экономии"""
+    try:
+        price_float = float(price)
+        discount_float = float(discount)
+
+        # Сумма экономии
+        saving = price_float * (discount_float / 100)
+
+        return f"{saving:.2f}"
+    except (ValueError, TypeError):
+        return "0.00"
